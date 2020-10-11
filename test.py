@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import functools
 import csv
 test_file_path = [
-    r"I:\csgoserver\steamcmd\steamapps\common\Counter-Strike Global Offensive Beta - Dedicated Server\csgo\addons\sourcemod\测试数据1.csv"]
+    r"I:\csgoserver\steamcmd\steamapps\common\Counter-Strike Global Offensive Beta - Dedicated Server\csgo\addons\sourcemod\test_data.csv"]
 
 train_file_path = [
-    r"I:\csgoserver\steamcmd\steamapps\common\Counter-Strike Global Offensive Beta - Dedicated Server\csgo\addons\sourcemod\训练数据.csv"]
+    r"I:\csgoserver\steamcmd\steamapps\common\Counter-Strike Global Offensive Beta - Dedicated Server\csgo\addons\sourcemod\train_data.csv"]
 
 csv_data = []
 csv_data_x = []
@@ -38,7 +38,6 @@ print(csv_data_y_avg)
 
 
 def process_continuous_data(mean, data):
-    # 标准化数据
     data = tf.cast(data, tf.float32) * 1/(2*mean)
     return tf.reshape(data, [-1, 1])
 
@@ -92,16 +91,16 @@ def start_predict():
 
     print("result:", num_cheat)
     if len(predict_data) < 20:
-        print("数据太少,无法辨别")
+        print("player kill must > 20")
     if num_cheat >= (len(predict_data) / 2) - 2:
-        print("此人微自瞄")
+        print("player is aimbot")
     else:
-        print("此人不是微自瞄")
+        print("player is not aimbot")
 
 
 model = create_model()
 model.load_weights('./save/model_weight')
 start_predict()
 while True:
-    input("按任意键开始预测")
+    input("any key ...")
     start_predict()

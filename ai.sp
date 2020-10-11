@@ -63,17 +63,12 @@ public void OnPluginStart()
 }
 void OnFileUploadCallBack(HTTPStatus status, any value)
 {
-    if (status != HTTPStatus_OK) {
-        PrintToServer("文件上传失败");
-        return;
-    }
-
     PrintToServer("Upload complete");
 } 
 public Action Event_Intermission(Handle event, const char[] name, bool dontBroadcast)
 {
     PrintToChatAll("比赛结束!上传反作弊数据中!");
-    //上传数据
+    //upload your saved data 
 	return Plugin_Continue;
 }
 stock bool IsClientNew(int client)
@@ -303,8 +298,9 @@ void Aimbot_AnalyzeAngles(int client)
         
         if (fAngleDiff > AIM_ANGLE_CHANGE)
         {
-            PrintToChatAll("[CrowAI] %N 暴力自瞄",client);
-            break;
+            PrintToChatAll("[CrowAI] %N rage aimbot skip this data",client);
+            CloseHandle(handle_file);
+            return;
         }
         int mouse[2];
         mouse = g_iMouse[client][idx];
